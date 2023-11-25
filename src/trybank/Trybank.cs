@@ -22,10 +22,39 @@ public class TrybankLib
     }
 
     // 1. Construa a funcionalidade de cadastrar novas contas
+    // Função auxiliar para verificar se a conta já existe
+        private bool AccountExists(int number, int agency)
+            {
+                for (int i = 0; i < registeredAccounts; i++)
+                {
+                    if (Bank[i, 0] == number && Bank[i, 1] == agency)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
     public void RegisterAccount(int number, int agency, int pass)
-    {
-        throw new NotImplementedException();
-    }
+        {
+                if (AccountExists(number, agency))
+            {
+                throw new ArgumentException("A conta já está sendo usada!");
+            }
+
+            // Verificar se há espaço disponível no array Bank
+            if (registeredAccounts < maxAccounts)
+            {
+                // Armazenar os dados no array Bank na próxima posição disponível com saldo 0
+                Bank[registeredAccounts, 0] = number;
+                Bank[registeredAccounts, 1] = agency;
+                Bank[registeredAccounts, 2] = pass;
+                Bank[registeredAccounts, 3] = 0;
+                registeredAccounts++;
+
+                return;
+            }   
+        }
 
     // 2. Construa a funcionalidade de fazer Login
     public void Login(int number, int agency, int pass)
